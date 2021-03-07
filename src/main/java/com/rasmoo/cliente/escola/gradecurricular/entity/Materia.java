@@ -1,4 +1,4 @@
-package com.rasmoo.cliente.escola.gradecurricular.model;
+package com.rasmoo.cliente.escola.gradecurricular.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
