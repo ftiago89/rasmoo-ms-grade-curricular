@@ -27,7 +27,7 @@ public class MateriaController {
     public ResponseEntity<Response<List<MateriaDto>>> findAll() {
         Response<List<MateriaDto>> response = new Response<>();
         response.setData(this.materiaService.findAll());
-        response.setStatusCode(HttpStatus.OK.value());
+        response.setHttpStatus(HttpStatus.OK.value());
         response.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(MateriaController.class)
                 .findAll()).withSelfRel());
         return ResponseEntity.status(HttpStatus.OK).body(response);
@@ -37,7 +37,7 @@ public class MateriaController {
     public ResponseEntity<Response<MateriaDto>> find(@PathVariable Long id) {
         Response<MateriaDto> response = new Response<>();
         response.setData(this.materiaService.find(id));
-        response.setStatusCode(HttpStatus.OK.value());
+        response.setHttpStatus(HttpStatus.OK.value());
         response.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(MateriaController.class)
                 .find(id)).withSelfRel());
         response.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(MateriaController.class)
@@ -53,7 +53,7 @@ public class MateriaController {
     public ResponseEntity<Response<Boolean>> save(@Valid @RequestBody MateriaDto materiaDto) {
         Response<Boolean> response = new Response<>();
         response.setData(this.materiaService.save(materiaDto));
-        response.setStatusCode(HttpStatus.OK.value());
+        response.setHttpStatus(HttpStatus.OK.value());
         response.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(MateriaController.class)
                 .save(materiaDto)).withSelfRel());
         response.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(MateriaController.class)
@@ -67,7 +67,7 @@ public class MateriaController {
     public ResponseEntity<Response<Boolean>> update(@Valid @RequestBody MateriaDto materiaDto) {
         Response<Boolean> response = new Response<>();
         response.setData(this.materiaService.update(materiaDto));
-        response.setStatusCode(HttpStatus.OK.value());
+        response.setHttpStatus(HttpStatus.OK.value());
         response.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(MateriaController.class)
                 .update(materiaDto)).withSelfRel());
         response.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(MateriaController.class)
@@ -79,7 +79,7 @@ public class MateriaController {
     public ResponseEntity<Response<Boolean>> delete(@PathVariable Long id) {
         Response<Boolean> response = new Response<>();
         response.setData(this.materiaService.delete(id));
-        response.setStatusCode(HttpStatus.OK.value());
+        response.setHttpStatus(HttpStatus.OK.value());
         response.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(MateriaController.class)
                 .delete(id)).withSelfRel());
         response.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(MateriaController.class)
