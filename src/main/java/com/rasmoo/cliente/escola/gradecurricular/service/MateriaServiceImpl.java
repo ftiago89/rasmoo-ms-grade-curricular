@@ -1,5 +1,6 @@
 package com.rasmoo.cliente.escola.gradecurricular.service;
 
+import com.rasmoo.cliente.escola.gradecurricular.constants.ConstMessages;
 import com.rasmoo.cliente.escola.gradecurricular.controller.MateriaController;
 import com.rasmoo.cliente.escola.gradecurricular.dto.MateriaDto;
 import com.rasmoo.cliente.escola.gradecurricular.entity.Materia;
@@ -7,7 +8,6 @@ import com.rasmoo.cliente.escola.gradecurricular.exception.MateriaException;
 import com.rasmoo.cliente.escola.gradecurricular.repository.IMateriaRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.actuate.autoconfigure.metrics.MetricsProperties;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
@@ -21,8 +21,6 @@ import java.util.stream.Collectors;
 @Service
 public class MateriaServiceImpl implements IMateriaService {
 
-    private static final String GENERIC_ERROR = "Erro inesperado, contate o suporte.";
-    private static final String MATERIA_NOT_FOUND = "Matéria não encontrada!";
     private final IMateriaRepository materiaRepository;
     private final ModelMapper mapper;
 
@@ -44,7 +42,7 @@ public class MateriaServiceImpl implements IMateriaService {
                     .methodOn(MateriaController.class).find(materiaDto.getId())).withRel("FIND")));
             return materiasDto;
         } catch (Exception e) {
-            throw new MateriaException(MATERIA_NOT_FOUND, HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new MateriaException(ConstMessages.ERRO_GENERICO.getValue(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -53,12 +51,12 @@ public class MateriaServiceImpl implements IMateriaService {
     public MateriaDto find(Long id) {
         try {
             Materia materia = this.materiaRepository.findById(id).orElseThrow(() ->
-                    new MateriaException(MATERIA_NOT_FOUND, HttpStatus.NOT_FOUND));
+                    new MateriaException(ConstMessages.ERRO_MATERIA_NAO_ENCONTRADA.getValue(), HttpStatus.NOT_FOUND));
             return this.mapper.map(materia, MateriaDto.class);
         } catch (MateriaException m) {
             throw m;
         } catch (Exception e) {
-            throw new MateriaException(GENERIC_ERROR, HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new MateriaException(ConstMessages.ERRO_GENERICO.getValue(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -68,7 +66,7 @@ public class MateriaServiceImpl implements IMateriaService {
             this.materiaRepository.save(this.mapper.map(materiaDto, Materia.class));
             return true;
         } catch (Exception e) {
-            throw new MateriaException(GENERIC_ERROR, HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new MateriaException(ConstMessages.ERRO_GENERICO.getValue(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -80,7 +78,7 @@ public class MateriaServiceImpl implements IMateriaService {
 
             return true;
         } catch (Exception e) {
-            throw new MateriaException(GENERIC_ERROR, HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new MateriaException(ConstMessages.ERRO_GENERICO.getValue(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -91,7 +89,7 @@ public class MateriaServiceImpl implements IMateriaService {
             this.materiaRepository.deleteById(id);
             return true;
         } catch (Exception e) {
-            throw new MateriaException(GENERIC_ERROR, HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new MateriaException(ConstMessages.ERRO_GENERICO.getValue(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

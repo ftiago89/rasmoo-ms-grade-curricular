@@ -13,7 +13,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/materia")
+@RequestMapping(value = "/materias")
 public class MateriaController {
 
     private static final String DELETE = "DELETE";
@@ -53,14 +53,14 @@ public class MateriaController {
     public ResponseEntity<Response<Boolean>> save(@Valid @RequestBody MateriaDto materiaDto) {
         Response<Boolean> response = new Response<>();
         response.setData(this.materiaService.save(materiaDto));
-        response.setHttpStatus(HttpStatus.OK.value());
+        response.setHttpStatus(HttpStatus.CREATED.value());
         response.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(MateriaController.class)
                 .save(materiaDto)).withSelfRel());
         response.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(MateriaController.class)
                 .update(materiaDto)).withRel(UPDATE));
         response.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(MateriaController.class)
                 .findAll()).withRel(LIST));
-        return ResponseEntity.status(HttpStatus.OK).body(response);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PutMapping
