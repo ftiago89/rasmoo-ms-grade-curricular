@@ -1,13 +1,16 @@
 package com.rasmoo.cliente.escola.gradecurricular.service;
 
+import com.rasmoo.cliente.escola.gradecurricular.controller.MateriaController;
 import com.rasmoo.cliente.escola.gradecurricular.dto.MateriaDto;
 import com.rasmoo.cliente.escola.gradecurricular.entity.Materia;
 import com.rasmoo.cliente.escola.gradecurricular.exception.MateriaException;
 import com.rasmoo.cliente.escola.gradecurricular.repository.IMateriaRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.autoconfigure.metrics.MetricsProperties;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CachePut;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -35,8 +38,11 @@ public class MateriaServiceImpl implements IMateriaService {
         try {
             List<Materia> materias = this.materiaRepository.findAll();
 
-            return materias.stream().map(m -> this.mapper.map(m, MateriaDto.class))
+            List<MateriaDto> materiasDto = materias.stream().map(m -> this.mapper.map(m, MateriaDto.class))
                     .collect(Collectors.toList());
+            materiasDto.forEach(materiaDto -> materiaDto.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder
+                    .methodOn(MateriaController.class).find(materiaDto.getId())).withRel("FIND")));
+            return materiasDto;
         } catch (Exception e) {
             throw new MateriaException(MATERIA_NOT_FOUND, HttpStatus.INTERNAL_SERVER_ERROR);
         }
